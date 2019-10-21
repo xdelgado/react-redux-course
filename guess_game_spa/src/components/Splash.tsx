@@ -8,3 +8,5 @@ export interface ISplashProps
 export const Splash:React.FC<ISplashProps> = (props:ISplashProps) => {
     return <div>{props.message}</div>
 }
+
+
