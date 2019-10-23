@@ -1,26 +1,26 @@
 import React from 'react';
 import './App.css';
-import { Splash } from './components/Splash';
-import { Main } from './components/Main';
-import { Register } from './components/Register';
-import { GameLobby } from './components/GameLobby';
-import { Game } from './components/Game';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import logger from 'redux-logger';
+import { reducer } from './reducers/reducer';
+import { bootstrap } from './actions/actions';
+import Router from './containers/Router';
+
 
 const App: React.FC = () => {
+  const initialState = {page:"splash"};
+  let store = createStore(reducer,initialState,applyMiddleware(thunkMiddleware,logger));  
+  
+  React.useEffect(()=>{
+    store.dispatch(bootstrap())
+  });
+
   return (
-    <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <div style={{width:'400px',height:'400px'}}>
-        <Splash message="Cargando guess game..."/>
-        <hr/>
-        <Main isRegistered={false}/>
-        <hr/>
-        <Register/>
-        <hr/>
-        <GameLobby gameId={1} players={["Xavier","Alvaro"]}/>
-        <hr/>
-        <Game finsihed={false} onTry={(value:string) => console.log(value)}/>
-      </div>
-    </div>
+    <Provider store={store}>
+      <Router/>
+    </Provider>
   );
 }
 

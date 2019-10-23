@@ -2,9 +2,10 @@ import * as React from 'react';
 import { pipelineTopicExpression } from '@babel/types';
 
 export interface IGameProps {
-    finsihed:boolean;
-    message?:string;
-    onTry(val:string):void;
+    username:string;
+    game:any;
+    message:string;
+    guess(username:string,gameId:number,val:number):void;
 }
 
 export const Game:React.FC<IGameProps> = (props:IGameProps) => {
@@ -18,7 +19,7 @@ export const Game:React.FC<IGameProps> = (props:IGameProps) => {
     }
 
     const onTry = () => {
-        props.onTry(value);
+        props.guess(props.username, props.game.id,parseInt(value));
         setValue('');
     }
 
@@ -26,6 +27,7 @@ export const Game:React.FC<IGameProps> = (props:IGameProps) => {
         <>
             <input type="text" value={value} onChange={onChange}></input>
             <button onClick={onTry}>Try</button>
+            <div>{props.message}</div>
         </>
     )
 }
