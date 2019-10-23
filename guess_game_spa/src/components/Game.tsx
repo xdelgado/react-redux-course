@@ -10,6 +10,7 @@ export interface IGameProps {
 
 export const Game:React.FC<IGameProps> = (props:IGameProps) => {
     const [value,setValue] = React.useState('');
+    const input = React.useRef<HTMLInputElement>(null);
 
     const onChange = (event:React.ChangeEvent<HTMLInputElement>) => {
         const val = Number(event.currentTarget.value);
@@ -21,11 +22,12 @@ export const Game:React.FC<IGameProps> = (props:IGameProps) => {
     const onTry = () => {
         props.guess(props.username, props.game.id,parseInt(value));
         setValue('');
+        input && input.current && input.current.focus()
     }
 
     return (
         <>
-            <input type="text" value={value} onChange={onChange}></input>
+            <input type="text" ref={input} value={value} onChange={onChange}></input>
             <button onClick={onTry}>Try</button>
             <div>{props.message}</div>
         </>
